@@ -18,6 +18,7 @@ try:
         fd_api = cfg['trigger_plugin']['FD_API']
         fd_pass = cfg['trigger_plugin']['FD_PASS']
         fd_domain = cfg['trigger_plugin']['FD_DOMAIN']
+        fd_email = cfg['trigger_plugin']['FD_EMAIL']
 except Exception,e:
     logging.error("FreshDesk Error in reading local DNIF Config File {}".format(e))
 
@@ -26,18 +27,17 @@ def select_template(dt,tmp_name):
     try:
         with open(path+"/trigger_plugins/freshdesk/"+tmp_name, "r") as f:
            ds = str(f.read())
+
         d = dict((x[1], '~~') for x in ds._formatter_parser())
         d.update(dt)
         c = ds.format(**d)
+        c = c.replace("\n","")
         ticket = ast.literal_eval("{" + c + "}")
-
         url = "https://" + fd_domain + ".freshdesk.com/api/v2/tickets"
         r = requests.post(url, auth=(fd_api, fd_pass),
                           headers=headers, data=json.dumps(ticket))
         if r.status_code ==201:
             json_res=r.json()
-            from pprint import pprint
-            pprint (json_res)
             out = {}
             if json_res["attachments"]!=[]:
                 out['$FDAttachments'] = json_res["attachments"]
@@ -67,7 +67,7 @@ def select_template(dt,tmp_name):
         out = {}
         s1 = "Error in API {}".format(e)
         logging.error("FDError :{}".format(e))
-        out['$FDPErrorMessage'] = s1
+        out['$FDErrorMessage'] = s1
         return out
 
 
@@ -81,6 +81,7 @@ def create_ticket(inward_array, var_array):
                 tmp_dict = {}
                 tmp_dict.update(i)
                 tmp_dict['$Subject'] = str(var_array[0])+" "+str(i[var_array[1]])
+                tmp_dict['$Email'] = fd_email
                 if (len(var_array) == 3):
                     fname = var_array[2].replace(" ", "")
                 else:
@@ -92,4 +93,3 @@ def create_ticket(inward_array, var_array):
             tmp_lst.append(i)
             logging.error("%s", e)
     return tmp_lst
-

@@ -2,3 +2,4 @@ trigger_plugin:
   FD_API: <Enter-API-key>
   FD_PASS: X
   FD_DOMAIN: <Enter-your-domain>
+  FD_EMAIL: <From-Email-Address-of-ticket>
