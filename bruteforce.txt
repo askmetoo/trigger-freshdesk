@@ -1,0 +1,10 @@
+"email": "{$Email}",
+"priority" : 1,
+"status" : 2,
+"subject": "{$Subject}",
+"description":"Module Name: {$Name} </br>
+ Module Description: {$Description} </br>
+ Device Source IP: {$DevSrcIP} </br>
+ Event Name: {$EvtName} </br>
+ Event Type: {$EvtType} </br>
+ Weight : {$Weight}"

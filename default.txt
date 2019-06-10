@@ -1,0 +1,1 @@
+"email": "example@example.com","subject": "{$Subject}","priority" : 1,"status" : 2,"description": "Action: {$Action} </br> Authentication Protocol: {$AuthProtocol}  </br> Log Name: {$LogName} </br>  Login Source: {$LoginSrc} </br>  Source IP: {$SrcIP} </br>  Sub Status: {$SubStatus} </br>  System Name: {$SystemName} </br>  User : {$User} </br>  Message: {$Message}"
